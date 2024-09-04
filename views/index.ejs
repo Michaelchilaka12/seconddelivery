@@ -1,0 +1,576 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Receipt</title>
+</head>
+<body>
+    <h1 id="company-name">Fed Ex</h1>
+    <p id="receipt-type">Shipment Receipt</p>
+
+    <div id="header-section">
+        <div>
+            <p id="created-date"><strong>Created Date:</strong> <%= new Date().toLocaleDateString() %></p>
+            <p id="created-time"><strong>Created Time:</strong> <%= new Date().toLocaleTimeString() %></p>
+        </div>
+        <div>
+            <p><strong>To:</strong></p>
+            <p id="recipient-name">Treva Dawn Blank</p>
+            <p id="recipient-address">25 w Locus Street, Ephrata PA, 17522</p>
+            <p id="recipient-email">travdawn84@aol.com</p>
+            <p id="recipient-phone">17173058398</p>
+        </div>
+    </div>
+
+    <div id="shipment-details">
+        <p><strong>Parcel Description:</strong> 4 (VIP MEMBERSHIP FAN CARD, VIP T-Shirt), a flower and check worth $30,000</p>
+        <p><strong>Dispatch Location:</strong> UK</p>
+        <p><strong>Courier Status:</strong> Pending Clearance</p>
+        <p><strong>Dispatch Date:</strong> 2024-06-21</p>
+        <p><strong>Estimated Delivery Date:</strong> 2024-06-22</p>
+        <p><strong>Carrier:</strong> PITNEY BOWES by FastGeoTrack</p>
+    </div>
+
+    <button id="download-btn">Download as PDF</button>
+
+    <script>
+        document.getElementById('download-btn').addEventListener('click', async function() {
+            // Extract the text content
+            const textContent = {
+                companyName: document.getElementById('company-name').innerText,
+                receiptType: document.getElementById('receipt-type').innerText,
+                createdDate: document.getElementById('created-date').innerText,
+                createdTime: document.getElementById('created-time').innerText,
+                recipientName: document.getElementById('recipient-name').innerText,
+                recipientAddress: document.getElementById('recipient-address').innerText,
+                recipientEmail: document.getElementById('recipient-email').innerText,
+                recipientPhone: document.getElementById('recipient-phone').innerText,
+                parcelDescription: document.getElementById('shipment-details').children[0].innerText,
+                dispatchLocation: document.getElementById('shipment-details').children[1].innerText,
+                courierStatus: document.getElementById('shipment-details').children[2].innerText,
+                dispatchDate: document.getElementById('shipment-details').children[3].innerText,
+                deliveryDate: document.getElementById('shipment-details').children[4].innerText,
+                carrier: document.getElementById('shipment-details').children[5].innerText,
+            };
+
+            const response = await fetch('/generate-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(textContent)
+            });
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'receipt.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        /* img{
+            width: 600px;
+            
+        } */
+
+        .sub-title {
+            text-align: center;
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .header-section {
+            display: block;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-section div {
+            width: 48%;
+        }
+
+        .header-section p {
+            margin: 5px 0;
+        }
+
+        .section-title {
+            background-color: #f0f0f0;
+            padding: 10px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .shipment-details {
+            margin-bottom: 20px;
+        }
+
+        .shipment-details p {
+            margin: 5px 0;
+        }
+
+        .shipment-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .shipment-details table th, .shipment-details table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        .shipment-details table th {
+            background-color: #f0f0f0;
+        }
+        .sender{
+           
+            justify-content: left;
+            padding: 10px;
+            margin-right: 150px;
+            
+        }
+        .receiver{
+           
+            padding: 10px;
+            justify-content: right;
+        }
+        .me{
+           
+            display: flex;
+            flex-direction: column;
+         
+           
+            margin-top: 30px;
+            margin-bottom: 20px;
+            justify-content: space-between;
+        }
+        .time{
+            display: inline;
+            height: 20px;
+        }
+        #download-btn {
+            /* width: 100px;
+            height: 50px; */
+            /* background-color: green; */
+            color: black;
+            margin-top: 30px;
+            margin-left: 50px;
+            font-size: larger;
+            height: 50px;
+        }
+        #download-btn:hover{
+            /* width: 100px;
+            height: 50px; */
+            /* background-color: green; */
+            background-color: green;
+            border-radius: 10px;
+            height: 50px;
+            color: white;
+            
+        }
+
+        
+/*for mobile devices*/
+@media (min-width: 319px) and (max-width: 481px){
+
+ body {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            max-width: 70%;
+           
+        }
+        img{
+            width: 150px;
+        }
+        iframe{
+            width: 150px;
+            height: 150px;
+        }
+        
+  
+
+}
+/*for smaller tablets and ipad*/
+
+@media (min-width: 481px) and (max-width: 700px){
+
+ body {
+            font-family: Arial, sans-serif;
+            font-size: 19px;
+            max-width: 80%;
+           
+        }
+        img{
+            width: 190px;
+        }
+        iframe{
+            width: 190px;
+            height: 150px;
+        }
+
+}
+
+/*for tablets and ipad*/
+@media (min-width: 701px) and (max-width: 1200px){
+   body {
+            font-family: Arial, sans-serif;
+            font-size: 29px;
+            max-width: 80%;
+           
+        }
+        img{
+            width: 550px;
+            height: 350px;
+        }
+        iframe{
+            width: 550px;
+            height: 350px;
+        }
+        .sub-title{
+            font-size: 40px;
+        }
+        h1{
+            font-size: 50px;
+        }
+}
+
+/* for big ipads */
+@media (max-width: 1030px) and (min-width: 768px) {
+    body {
+            font-family: Arial, sans-serif;
+            font-size: 25px;
+            max-width: 100%;
+           
+        }
+        img{
+            width: 550px;
+            height: 350px;
+        }
+        iframe{
+            width: 550px;
+            height: 350px;
+        }
+        .sub-title{
+            font-size: 20px;
+        }
+}
+
+/*for laptops*/
+@media (min-width: 1201px) and (max-width: 1600px){
+    body {
+            font-family: Arial, sans-serif;
+            font-size: 35px;
+            max-width: 100%;
+           
+        }
+        img{
+            width: 850px;
+            height: 450px;
+        }
+        iframe{
+            width: 850px;
+            height: 450px;
+        }
+        .sub-title{
+            font-size: 40px;
+        }
+        h1{
+            font-size: 60px;
+        }
+}
+/*for destop*/
+@media (min-width: 1601px){
+    
+}
+
+
+
+       
+        
+    </style>
+</head>
+<body>
+    <h1>Fed Ex</h1>
+    <p class="sub-title">Shipment Receipt</p>
+
+    <div class="header-section">
+        <div class="time">
+            <p><strong>Created Date:</strong> <%= new Date().toLocaleDateString() %></p>
+            <p><strong>Created Time:</strong> <%= new Date().toLocaleTimeString() %></p>
+        </div>
+        <div class="me">
+        <div class="sender">
+            <p><strong>Sender Details:</strong></p>
+            <p>Name: <%= formData.sendersname %></p>
+            <p>Address: <%= formData.sendersaddress %></p>
+            <p>Email: <%= formData.sendersemail %></p>
+            <p>Phone: <%= formData.sendersphone %></p>
+        </div>
+
+        <div class="receiver">
+            <p><strong>Receiver Details:</strong></p>
+            <p>Name: <%= formData.receiversname %></p>
+            <p>Address: <%= formData.receiversaddress %></p>
+            <p> Email: <%= formData.receiversemail %></p>
+            <p>Phone: <%= formData.receiversphone %></p>
+        </div>
+    </div>
+        
+    </div>
+
+    <div class="shipment-details">
+        <div class="section-title" id="pdf-title">Shipment Details</div>
+        <table id="pdf-content">
+            <tr>
+                <th>Dispatch Location</th>
+                <td><%= formData.origin %></td>
+            </tr>
+
+            <tr>
+                <th>Parcel Description</th>
+                <td><%= formData.packages %></td>
+            </tr>
+           
+            <tr>
+                <th>Courier Status</th>
+                <td><%= formData.shipmentstatus %></td>
+            </tr>
+
+            <tr>
+                <th>Destination</th>
+                <td><%= formData.destination %></td>
+            </tr>
+
+            <tr>
+                <th>Carrier</th>
+                <td>PITNEY BOWES by FastGeoTrack</td>
+            </tr>
+
+            <tr>
+                <th>Type of Shipment</th>
+                <td><%= formData.typeofshipment %></td>
+            </tr>
+
+            <tr>
+                <th>Weight</th>
+                <td><%= formData.weight %></td>
+            </tr>
+
+            <tr>
+                <th>Shipment Mode</th>
+                <td><%= formData.shipmentmode %></td>
+            </tr>
+
+            <tr>
+                <th>Carrier Reference No</th>
+                <td><%= formData.carrierreferenceno %></td>
+            </tr>
+
+
+            <tr>
+                <th>Product</th>
+                <td><%= formData.product %></td>
+            </tr>
+
+            <tr>
+                <th>Qty</th>
+                <td><%= formData.qty %></td>
+            </tr>
+
+            <tr>
+                <th>Payment Mode</th>
+                <td><%= formData.paymentmode %></td>
+            </tr>
+
+            <tr>
+                <th>Total Freight</th>
+                <td><%= formData.product %></td>
+            </tr>
+
+
+            <tr>
+                <th>Estimated Delivery Date</th>
+                <td><%= formData.expecteddeliverydate %></td>
+            </tr>
+
+            <tr>
+                <th>Depature Date</th>
+                <td><%= formData.departuredate %></td>
+            </tr>
+
+            <tr>
+                <th>Delivery Time</th>
+                <td><%= formData.deliverytime %></td>
+            </tr>
+
+            <tr style="height: '<%= height%>';">
+                <th><%= imgtext %></th>
+                <td><img width="600" src='<%= packimg %>' alt=""></td>
+            </tr>
+
+            <tr style="height: '<%= height%>';"> 
+                <th><%= current %></th>
+                <td> 
+                    <div ><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d187146.1536037926!2d-0.2817330529651901!3d51.528308647665844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b7b650b8cb5%3A0x124654a7c9890e9d!2s<%=map%>!5e0!3m2!1sen!2sus!4v1693180920665!5m2!1sen!2sus" width="600" height="<%= height %>" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+                </div></td>
+            </tr>
+            
+            
+            
+           
+       
+        </table>
+       
+<!-- 
+        <script>
+            const maps = document.getElementById('map')
+            var map = new maplibregl.Map({
+                container: maps, // container id
+                style: 'https://demotiles.maplibre.org/style.json', // style URL
+                center: [0, 0], // starting position [lng, lat]
+                zoom: 1 // starting zoom
+            });
+        </script> -->
+           
+        
+    </div>
+    <form id="download" action="" method="get">
+        <button id="download-btn"><%= buttontext %></button>
+       </form>
+
+    <script>
+        const submitBtn = document.getElementById('download-btn');
+        const adminForm = document.getElementById('download');
+        const id = '<%= formData.carrierreferenceno%>'
+
+submitBtn.addEventListener('click', () => {
+            adminForm.action = '/download-pdf' + id;
+            adminForm.method = 'GET';
+           
+        });
+
+
+
+    </script>
+    <!-- <script>
+        document.getElementById('download-btn').addEventListener('click', async function() {
+            // Select only the content you want to include in the PDF
+            const title = document.getElementById('pdf-title').innerHTML;
+            const content = document.getElementById('pdf-content').innerHTML;
+            const selectedContent = title + content;
+
+            const response = await fetch('/generate-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ html: selectedContent })
+            });
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+    </script> -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<h2 id="pdf-title">Tracking Information</h2>
+<ul id="pdf-content">
+   
+</ul>
+<button id="download-btn">Download as PDF</button>
+
+<script>
+    document.getElementById('download-btn').addEventListener('click', async function() {
+        // Select only the content you want to include in the PDF
+        const title = document.getElementById('pdf-title').innerHTML;
+        const content = document.getElementById('pdf-content').innerHTML;
+        const selectedContent = title + content;
+
+        const response = await fetch('/generate-pdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ html: selectedContent })
+        });
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'report.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    });
+</script> -->

@@ -1,0 +1,36 @@
+
+    .container {
+      color: #292929;
+    }
+
+    .grid h5 {
+      margin: 0 20px;
+    }
+
+    .grid article {
+      margin: 0 2%;
+    }
+
+    .grid-two {
+      padding: 10px 30px;
+    }
+
+    @media screen and (min-width: 768px) {
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+    @media screen and (min-width: 1200px) {
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+    }
+  

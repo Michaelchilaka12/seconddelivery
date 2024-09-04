@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+
+        .admin-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 180%;
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .admin-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .admin-container button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+            font-size: 26px;
+        }
+
+        .admin-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+            max-height: 70vh; /* Limit height to prevent overflow */
+            overflow-y: auto; /* Add scroll if necessary */
+        }
+
+        .admin-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .admin-container input {
+            width: calc(99% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .admin-container .close-button {
+            background-color: #DC3545;
+            margin-top: 10px;
+        }
+
+        .admin-container .close-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <h2>Admin Dashboard</h2>
+        <button id="createBtn">Create</button>
+        <button id="updateBtn">Update</button>
+        <button id="deleteBtn">Delete</button>
+
+        <div id="formContainer" class="form-container">
+            <form id="adminForm" method="POST">
+                <label for="itemId">Id</label>
+                <input type="text" id="itemId" name="itemId" placeholder="Enter Id" >
+
+                <label for="sendersname">Sender's Name</label>
+                <input type="text" id="sendersname" name="sendersname" placeholder="Enter sender's name" >
+
+                <label for="sendersaddress">Sender's Address</label>
+                <input type="text" id="sendersaddress" name="sendersaddress" placeholder="Enter sender's address" >
+
+                <label for="sendersphone">Sender's Phone Number</label>
+                <input type="text" id="sendersphone" name="sendersphone" placeholder="Enter sender's phone" >
+
+                <label for="sendersemail">Sender's Email</label>
+                <input type="email" id="sendersemail" name="sendersemail" placeholder="Enter sender's email" >
+
+                <label for="receiversname">Receiver's Name</label>
+                <input type="text" id="receiversname" name="receiversname" placeholder="Enter receiver's name" >
+
+                <label for="receiversaddress">Receiver's Address</label>
+                <input type="text" id="receiversaddress" name="receiversaddress" placeholder="Enter receiver's address"
+                    >
+
+                <label for="receiversphone">Receiver's Phone Number</label>
+                <input type="text" id="receiversphone" name="receiversphone" placeholder="Enter receiver's phone" >
+
+                <label for="receiversemail">Receiver's Email</label>
+                <input type="email" id="receiversemail" name="receiversemail" placeholder="Enter receiver's email"
+                    >
+
+                <label for="shipmentstatus">Shipment Status</label>
+                <input type="text" id="shipmentstatus" name="shipmentstatus" placeholder="Enter shipment status" >
+
+                <label for="origin">Origin</label>
+                <input type="text" id="origin" name="origin" placeholder="Enter Origin" >
+
+                <label for="packages">Package</label>
+                <input type="text" id="packages" name="packages" placeholder="Enter Package" >
+
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" name="destination" placeholder="Enter Destination" >
+
+                <label for="currentlocation">Current Location</label>
+                <input type="text" id="currentlocation" name="currentlocation" placeholder="Enter Current Location" >
+
+
+                <label for="carrier">Carrier</label>
+                <input type="text" id="carrier" name="carrier" placeholder="Enter Carrier" >
+
+                <label for="typeofshipment">Type Of Shipment</label>
+                <input type="text" id="typeofshipment" name="typeofshipment" placeholder="Enter Type Of Shipment"
+                    >
+
+                <label for="weight">Weight</label>
+                <input type="text" id="weight" name="weight" placeholder="Enter Weight" >
+
+                <label for="shipmentmode">Shipment Mode</label>
+                <input type="text" id="shipmentmode" name="shipmentmode" placeholder="Enter Shipment Mode" >
+
+                <label for="carrierreferenceno">Carrier Reference Number</label>
+                <input type="text" id="carrierreferenceno" name="carrierreferenceno"
+                    placeholder="Enter Carrier Reference number" >
+
+                <label for="product">Product</label>
+                <input type="text" id="product" name="product" placeholder="Enter Product" >
+
+                <label for="qty">QTY</label>
+                <input type="text" id="qty" name="qty" placeholder="Enter QTY" >
+
+                <label for="paymentmode">Payment Mode</label>
+                <input type="text" id="paymentmode" name="paymentmode" placeholder="Enter Payment mode" >
+
+                <label for="totalfreight">Total Freight</label>
+                <input type="text" id="totalfreight" name="totalfreight" placeholder="Enter Total Freight" >
+
+                <label for="expecteddeliverydate">Expected Delivery Date</label>
+                <input type="text" id="expecteddeliverydate" name="expecteddeliverydate"
+                    placeholder="Enter Expected Delivery Date" >
+
+                <label for="departuredate">Departure Date</label>
+                <input type="text" id="departuredate" name="departuredate" placeholder="Enter Departure Date" >
+
+                <label for="deliverytime">Delivery Time</label>
+                <input type="text" id="deliverytime" name="deliverytime" placeholder="Enter Delivery Time" >
+
+                <label for="packageimage">Package Image:</label>
+                    <input type="text" id="packageimage" name="packageimage"  >
+                        <!-- <button type="submit">Upload Image</button> -->
+
+                <button type="submit" id="submitBtn">Submit</button>
+                <button type="button" class="close-button" id="closeFormBtn">Close</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+       const createBtn = document.getElementById('createBtn');
+const updateBtn = document.getElementById('updateBtn');
+const deleteBtn = document.getElementById('deleteBtn');
+const formContainer = document.getElementById('formContainer');
+const closeFormBtn = document.getElementById('closeFormBtn');
+const adminForm = document.getElementById('adminForm');
+const submitBtn = document.getElementById('submitBtn');
+const formFields = adminForm.querySelectorAll('input:not(#carrierreferenceno)');
+
+let currentMethod = 'POST'; // Default method
+
+createBtn.addEventListener('click', () => {
+    adminForm.action = '/insert';
+    currentMethod = 'POST';
+    formContainer.style.display = 'block';
+    showAllFields(); // Show all fields for creating
+});
+
+updateBtn.addEventListener('click', () => {
+    const itemId = document.getElementById('carrierreferenceno').value;
+    adminForm.action = `/update/${itemId}`;
+    currentMethod = 'PATCH';
+    formContainer.style.display = 'block';
+    showAllFields(); // Show all fields for updating
+});
+
+deleteBtn.addEventListener('click', () => {
+    const itemId = document.getElementById('carrierreferenceno').value;
+    adminForm.action = `/delete/${itemId}`;
+    currentMethod = 'DELETE';
+    formContainer.style.display = 'block';
+    hideFieldsForDelete(); // Show only the carrierreferenceno field for deleting
+});
+
+closeFormBtn.addEventListener('click', () => {
+    formContainer.style.display = 'none';
+});
+
+adminForm.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const itemId = document.getElementById('carrierreferenceno').value;
+
+    if (!itemId) {
+        alert('Please enter a carrier reference number.');
+        return;
+    }
+
+    const formData = new FormData(adminForm);
+    let url = '';
+
+    if (currentMethod === 'POST') {
+        url = '/insert';
+    } else if (currentMethod === 'PATCH') {
+        url = `/update/${itemId}`;
+    } else if (currentMethod === 'DELETE') {
+        url = `/delete/${itemId}`;
+    }
+
+    fetch(url, {
+        method: currentMethod,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(Object.fromEntries(formData))
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Request failed: ' + response.status);
+        }
+        return response.text();
+    })
+    .then(result => {
+        alert(result);
+        formContainer.style.display = 'none';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+function hideFieldsForDelete() {
+    formFields.forEach(field => field.style.display = 'none'); // Hide all fields except carrierreferenceno
+}
+
+function showAllFields() {
+    formFields.forEach(field => field.style.display = 'block'); // Show all fields
+}
+ 
+
+
+        
+    </script>
+</body>
+
+</html>
