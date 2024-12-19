@@ -22,7 +22,7 @@ env.config();
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 4000;
 const indexRouter = require('./routes/index');
 // Middleware to parse the request body
 app.use(bodyParser.urlencoded({ extended: true }));
