@@ -293,7 +293,7 @@ app.get('/track:itemId', (req, res) => {
 app.get('/download-pdf:itemId', (req, res) => {
   const itemId = req.params.itemId
   
-  const url = `https://geotracking-5nmv.onrender.com/track${itemId}`;
+  const url = `https://seconddelivery.vercel.app/track${itemId}`;
 
   exec(`wkhtmltopdf ${url} Receipt.pdf`, (error, stdout, stderr) => {
     if (error) {
